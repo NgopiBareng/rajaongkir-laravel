@@ -4,8 +4,8 @@ namespace Ngopibareng\RajaongkirLaravel;
 
 use Illuminate\Support\ServiceProvider;
 
-use Ngopibareng\LaravelRajaongkir\Console\Commands\CacheCommand;
-use Ngopibareng\LaravelRajaongkir\Console\Commands\CacheClearCommand;
+use Ngopibareng\RajaongkirLaravel\Console\Commands\CacheCommand;
+use Ngopibareng\RajaongkirLaravel\Console\Commands\CacheClearCommand;
 
 class RajaongkirLaravelServiceProvider extends ServiceProvider
 {
