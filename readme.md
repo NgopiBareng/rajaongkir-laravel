@@ -1,11 +1,6 @@
 # RajaongkirLaravel
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Total Downloads][ico-downloads]][link-downloads]
-[![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-styleci]][link-styleci]
-
-This is where your description should go. Take a look at [contributing.md](contributing.md) to see a to do list.
+Raja Ongkir API 
 
 ## Installation
 
@@ -15,7 +10,200 @@ Via Composer
 $ composer require ngopibareng/rajaongkir-laravel
 ```
 
+Publish config : 
+```php
+php artisan vendor:publish
+```
+
+Setting .env code :
+```
+RAJAONGKIR_API_KEY=YOUR_API_KEY
+RAJAONGKIR_ACCOUNT_TYPE=starter/basic/pro
+
+# Cache every request
+RAJAONGKIR_CACHE_ENABLED=true
+RAJAONGKIR_CACHE_DRIVER=file/redis
+```
+
+## Requirements
+* PHP >= 7.3
+* Laravel >= 7
+
 ## Usage
+### General Usage
+#### Get All Couriers
+Get all couriers :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$couriers = RajaOngkir::courier()->all();
+```
+#### Get Supported Couriers For Shipping Cost
+Get supported couriers for shipping cost
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$couriers = RajaOngkir::courier()->getSupported();
+```
+#### Get international couriers
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$couriers = RajaOngkir::courier()->getInternationalCouriers();
+```
+#### Get domestic couriers
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$couriers = RajaOngkir::courier()->getDomesticCouriers();
+```
+### Province
+#### Get All Provinces
+Get all provinces :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$provinces = RajaOngkir::province()->get();
+```
+
+#### Get Province By ID
+Get province by province id
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$province = RajaOngkir::province()->find(11);
+```
+
+### City
+#### Get All Cities
+Get all cities :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$cities = RajaOngkir::city()->get();
+```
+
+#### Get City By Parameters
+Get city by parameters
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$cities = RajaOngkir::city();
+$cities = $cities->whereCityID(11)->get(); //by city_id
+$cities = $cities->province(11)->get(); //by province_id
+```
+
+### District
+#### Get Districts
+Get districts by parameters :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$city_id = 11;
+$districts = RajaOngkir::district()->get($city_id); // by city_id
+$districts = $districts->whereID()->get(); //by district_id
+```
+
+### Intenational
+#### Get International Origin
+Get international origin by parameters :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$internationals = RajaOngkir::internationalOrigin()->get(); // all
+$internationals = $internationals->city(11)->get(); //by city_id
+$internationals = $internationals->province(11)->get(); //by province_id
+```
+#### Get International Destination
+Get international destination by parameters :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$internationals = RajaOngkir::internationalDestination()->get(); // all
+$internationals = $internationals->country(11)->get(); //by country_id
+```
+#### Get International Cost
+Get international cost by parameters :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$parameters = [
+    'origin'        => 155,     // origin city_id 
+    'destination'   => 80,      // destination city_id
+    'weight'        => 1300,    // weight
+    'courier'       => 'jne'    // courier code
+];
+$internationals = RajaOngkir::internationalCost()->get($parameters);
+```
+
+### Currency
+#### Get Currency
+Get latest conversion currency (Dollar & Rupiah)
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$currency = RajaOngkir::currency()->get();
+```
+
+### Shipping Cost
+#### Get Shipping cost by parameters
+Get shipping cost by parameters :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$parameters = [
+    'origin'        => 155,     // origin city_id 
+    'destination'   => 80,      // destination city_id
+    'weight'        => 1300,    // weight
+    'courier'       => 'jne'    // courier code
+];
+$costs = RajaOngkir::cost()->get($parameters);
+```
+
+### Waybill / Track Shipping
+#### Get waybill by parameters
+Get waybill by parameters :
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$trackingCode = '';
+$courierCode = 'jne';
+$waybills = RajaOngkir::waybill()->find($trackingCode, $courierCode);
+```
+
+### Caching
+#### Pre-Cache
+Pre Cache rajaongkir request
+```php
+# Avaiable cache : province, city, subdistrict, internationalDestination, internationalOrigin
+
+# Pre-cache all raja ongkir request
+php artisan rajaongkir:cache
+
+# Pre-cache selected request raja ongkir 
+php artisan rajaongkir:cache province
+```
+#### Remove caches
+Remove cache
+```php
+# Avaiable cache : province, city, subdistrict, internationalDestination, internationalOrigin
+
+# Remove all raja ongkir caches 
+php artisan rajaongkir:cache-clear
+
+# Remove selected raja ongkir cache 
+php artisan rajaongkir:cache-clear province
+```
+
+### Widget
+#### Widget Iframe 
+```php
+use RajaongkirLaravel as Rajaongkir;
+
+$waybills = RajaOngkir::widget();
+$waybills = $waybills->setID('widget-rajaongkir'); //set selector id
+$waybills = $waybills->build($theme = 'light');
+```
 
 ## Change log
 
