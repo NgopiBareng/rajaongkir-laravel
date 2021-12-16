@@ -14,7 +14,9 @@ use Ngopibareng\RajaongkirLaravel\Endpoint\CurrencyEndpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\InternationalCostEndpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\InternationalDestinationEndpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\InternationalOriginEndpoint;
+use Ngopibareng\RajaongkirLaravel\Endpoint\CostEndpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\WaybillEndpoint;
+use Ngopibareng\RajaongkirLaravel\Widget;
 
 class RajaongkirLaravel
 {
@@ -163,6 +165,16 @@ class RajaongkirLaravel
     }
 
     /**
+     * Make request to get shipping cost
+     *
+     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\CostEndpoint
+     */
+    public function cost()
+    {
+        return CostEndpoint::make($this->httpClient);
+    }
+
+    /**
      * Make request to get waybill, tracking manifest (no resi)
      *
      * @return \Ngopibareng\RajaongkirLaravel\Endpoint\WaybillEndpoint
@@ -178,5 +190,15 @@ class RajaongkirLaravel
     public function accountType()
     {
         return $this->accountType;
+    }
+
+    /**
+     * Build widget raja ongkir (iframe)
+     *
+     * @return \Ngopibareng\RajaongkirLaravel\Widget
+     */
+    public function widget()
+    {
+        return Widget::make();
     }
 }
