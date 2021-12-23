@@ -34,26 +34,26 @@ RAJAONGKIR_CACHE_DRIVER=file/redis
 #### Get All Couriers
 Get all couriers :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $couriers = RajaOngkir::courier()->all();
 ```
 #### Get Supported Couriers For Shipping Cost
 Get supported couriers for shipping cost
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $couriers = RajaOngkir::courier()->getSupported();
 ```
 #### Get international couriers
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $couriers = RajaOngkir::courier()->getInternationalCouriers();
 ```
 #### Get domestic couriers
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $couriers = RajaOngkir::courier()->getDomesticCouriers();
 ```
@@ -61,7 +61,7 @@ $couriers = RajaOngkir::courier()->getDomesticCouriers();
 #### Get All Provinces
 Get all provinces :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $provinces = RajaOngkir::province()->get();
 ```
@@ -69,7 +69,7 @@ $provinces = RajaOngkir::province()->get();
 #### Get Province By ID
 Get province by province id
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $province = RajaOngkir::province()->find(11);
 ```
@@ -78,7 +78,7 @@ $province = RajaOngkir::province()->find(11);
 #### Get All Cities
 Get all cities :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $cities = RajaOngkir::city()->get();
 ```
@@ -86,7 +86,7 @@ $cities = RajaOngkir::city()->get();
 #### Get City By Parameters
 Get city by parameters
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $cities = RajaOngkir::city();
 $cities = $cities->whereCityID(11)->get(); //by city_id
@@ -97,7 +97,7 @@ $cities = $cities->province(11)->get(); //by province_id
 #### Get Districts
 Get districts by parameters :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $city_id = 11;
 $districts = RajaOngkir::district()->get($city_id); // by city_id
@@ -108,7 +108,7 @@ $districts = $districts->whereID()->get(); //by district_id
 #### Get International Origin
 Get international origin by parameters :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $internationals = RajaOngkir::internationalOrigin()->get(); // all
 $internationals = $internationals->city(11)->get(); //by city_id
@@ -117,7 +117,7 @@ $internationals = $internationals->province(11)->get(); //by province_id
 #### Get International Destination
 Get international destination by parameters :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $internationals = RajaOngkir::internationalDestination()->get(); // all
 $internationals = $internationals->country(11)->get(); //by country_id
@@ -125,7 +125,7 @@ $internationals = $internationals->country(11)->get(); //by country_id
 #### Get International Cost
 Get international cost by parameters :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $parameters = [
     'origin'        => 155,     // origin city_id 
@@ -140,7 +140,7 @@ $internationals = RajaOngkir::internationalCost()->get($parameters);
 #### Get Currency
 Get latest conversion currency (Dollar & Rupiah)
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $currency = RajaOngkir::currency()->get();
 ```
@@ -149,7 +149,7 @@ $currency = RajaOngkir::currency()->get();
 #### Get Shipping cost by parameters
 Get shipping cost by parameters :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $parameters = [
     'origin'        => 155,     // origin city_id 
@@ -164,7 +164,7 @@ $costs = RajaOngkir::cost()->get($parameters);
 #### Get waybill by parameters
 Get waybill by parameters :
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
 $trackingCode = '';
 $courierCode = 'jne';
@@ -198,11 +198,11 @@ php artisan rajaongkir:cache-clear province
 ### Widget
 #### Widget Iframe 
 ```php
-use RajaongkirLaravel as Rajaongkir;
+use RajaongkirLaravel as RajaOngkir;
 
-$waybills = RajaOngkir::widget();
-$waybills = $waybills->setID('widget-rajaongkir'); //set selector id
-$waybills = $waybills->build($theme = 'light');
+$widget = RajaOngkir::widget();
+$widget = $widget->setID('widget-rajaongkir'); //set selector id
+$widget = $widget->build($theme = 'light');
 ```
 
 ## Change log
