@@ -64,6 +64,7 @@ Get all provinces :
 use RajaongkirLaravel as RajaOngkir;
 
 $provinces = RajaOngkir::province()->get();
+$response = $province->response()->toArray();
 ```
 
 #### Get Province By ID
@@ -72,6 +73,7 @@ Get province by province id
 use RajaongkirLaravel as RajaOngkir;
 
 $province = RajaOngkir::province()->find(11);
+$response = $province->response()->toArray();
 ```
 
 ### City
@@ -81,6 +83,7 @@ Get all cities :
 use RajaongkirLaravel as RajaOngkir;
 
 $cities = RajaOngkir::city()->get();
+$response = $cities->response()->toArray();
 ```
 
 #### Get City By Parameters
@@ -102,9 +105,11 @@ use RajaongkirLaravel as RajaOngkir;
 $city_id = 11;
 $districts = RajaOngkir::district()->get($city_id); // by city_id
 $districts = $districts->whereID()->get(); //by district_id
+
+$response = $districts->response()->toArray();
 ```
 
-### Intenational
+### International
 #### Get International Origin
 Get international origin by parameters :
 ```php
@@ -113,6 +118,8 @@ use RajaongkirLaravel as RajaOngkir;
 $internationals = RajaOngkir::internationalOrigin()->get(); // all
 $internationals = $internationals->city(11)->get(); //by city_id
 $internationals = $internationals->province(11)->get(); //by province_id
+
+$response = $internationals->response()->toArray();
 ```
 #### Get International Destination
 Get international destination by parameters :
@@ -134,6 +141,7 @@ $parameters = [
     'courier'       => 'jne'    // courier code
 ];
 $internationals = RajaOngkir::internationalCost()->get($parameters);
+$response = $internationals->response()->toArray();
 ```
 
 ### Currency
@@ -143,6 +151,7 @@ Get latest conversion currency (Dollar & Rupiah)
 use RajaongkirLaravel as RajaOngkir;
 
 $currency = RajaOngkir::currency()->get();
+$response = $currency->response()->toArray();
 ```
 
 ### Shipping Cost
@@ -153,11 +162,14 @@ use RajaongkirLaravel as RajaOngkir;
 
 $parameters = [
     'origin'        => 155,     // origin city_id 
-    'destination'   => 80,      // destination city_id
+    'originType'	=> 'city',
+    'destination'   => 444,      // destination city_id
+    'destinationType'=> 'city',
     'weight'        => 1300,    // weight
     'courier'       => 'jne'    // courier code
 ];
 $costs = RajaOngkir::cost()->get($parameters);
+$response = $costs->response()->toArray();
 ```
 
 ### Waybill / Track Shipping
@@ -169,6 +181,7 @@ use RajaongkirLaravel as RajaOngkir;
 $trackingCode = '';
 $courierCode = 'jne';
 $waybills = RajaOngkir::waybill()->find($trackingCode, $courierCode);
+$response = $waybills->response()->toArray();
 ```
 
 ### Caching
@@ -218,10 +231,6 @@ $ composer test
 ## Contributing
 
 Please see [contributing.md](contributing.md) for details and a todolist.
-
-## Security
-
-If you discover any security related issues, please email bgs.beep21@gmail.com instead of using the issue tracker.
 
 ## Credits
 
