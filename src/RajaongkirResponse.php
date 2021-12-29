@@ -36,13 +36,14 @@ class RajaongkirResponse
      *
      * @param string $group
      * @param string|null $key
+     * @param mixed|null $response
      * @return string
      */
-    private function getResponse($group, $key = null)
+    protected function getResponse($group, $key = null, $response = null)
     {
         $keyStr = $group;
         $keyStr .= !is_null($key) ? '.' . $key : '';
-        return Arr::get($this->response, $keyStr);
+        return Arr::get(!is_null($response) ? $response : $this->response, $keyStr);
     }
 
     /**
@@ -161,6 +162,6 @@ class RajaongkirResponse
      */
     public function first()
     {
-        return Arr::first($this->response);
+        return Arr::first($this->getResult());
     }
 }

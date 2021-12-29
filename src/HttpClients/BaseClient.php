@@ -23,7 +23,7 @@ abstract class BaseClient implements HttpClientContract
     protected $client;
 
     /** @var string */
-    protected $baseUrl;
+    public $baseUrl;
 
     /** @var string */
     protected $apiKey;

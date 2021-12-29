@@ -13,11 +13,12 @@ class CityEndpoint extends BaseEndpoint
     /**
      * Get all city
      *
-     * @return \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient
+     * @return self
      */
     public function get()
     {
-        return $this->makeRequest();
+        $this->makeRequest();
+        return $this;
     }
 
     /**
@@ -25,7 +26,7 @@ class CityEndpoint extends BaseEndpoint
      *
      * @param string $id
      * @param string|null $province
-     * @return \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient
+     * @return self
      */
     public function find($id, $province = null)
     {
@@ -35,7 +36,8 @@ class CityEndpoint extends BaseEndpoint
             $this->province($province);
         }
 
-        return $this->makeRequest();
+        $this->makeRequest();
+        return $this;
     }
 
     /**

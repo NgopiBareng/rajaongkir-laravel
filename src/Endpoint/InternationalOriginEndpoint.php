@@ -14,11 +14,12 @@ class InternationalOriginEndpoint extends BaseEndpoint
     /**
      * Get all international origin
      *
-     * @return \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient
+     * @return self
      */
     public function get()
     {
-        return $this->makeRequest();
+        $this->makeRequest();
+        return $this;
     }
 
     /**
@@ -26,7 +27,7 @@ class InternationalOriginEndpoint extends BaseEndpoint
      *
      * @param string $city
      * @param string|null $province
-     * @return \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient
+     * @return self
      */
     public function find($city, $province = null)
     {
@@ -36,7 +37,8 @@ class InternationalOriginEndpoint extends BaseEndpoint
             $this->province($province);
         }
 
-        return $this->makeRequest();
+        $this->makeRequest();
+        return $this;
     }
 
     /**

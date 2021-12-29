@@ -5,39 +5,46 @@ namespace Ngopibareng\RajaongkirLaravel\Endpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\BaseEndpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\PayloadHasDimension;
 use Ngopibareng\RajaongkirLaravel\Endpoint\PayloadHasCourier;
+use Ngopibareng\RajaongkirLaravel\Endpoint\PayloadHasLocation;
+
+use Ngopibareng\RajaongkirLaravel\Responses\InternationalCostResponse;
 
 class InternationalCostEndpoint extends BaseEndpoint
 {
     use PayloadHasDimension;
     use PayloadHasCourier;
+    use PayloadHasLocation;
 
     protected $cacheName = 'internationalCost';
     protected $endpoint = 'internationalCost';
     protected $apiVersion = 'v2';
+    protected $disableCache = true;
 
-    public function get()
+    public function responseClass()
     {
-        // $this->httpClient->getCache()->clear();
-        return $this->httpClient->request($this->endpoint);
-    }
-
-    public function find($id, $provinceID)
-    {
-        return $this->httpClient->request($this->endpoint, [
-            'id' => $id,
-            'province' => $provinceID
-        ]);
+        return InternationalCostResponse::class;
     }
 
     /**
-     * @param string $province
+     * @param int $weight
      * @return self
      */
-    public function province($province)
+    public function weight(int $weight)
     {
         $this->addPayload([
-            'province' => $province
+            'weight' => $weight
         ]);
+        return $this;
+    }
+
+    /**
+     * @param array $payloads
+     * @return self
+     */
+    public function get($payloads = [])
+    {
+        $this->addPayload($payloads);
+        $this->makeRequest('POST');
         return $this;
     }
 }

@@ -5,6 +5,7 @@ namespace Ngopibareng\RajaongkirLaravel\HttpClients;
 use Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient as BaseClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Throwable;
 
 class GuzzleClient extends BaseClient
 {
@@ -49,9 +50,25 @@ class GuzzleClient extends BaseClient
             'key' => $this->apiKey
         ], $payloads);
 
-        $payloads = [
-            'query' => $payloads
-        ];
+        switch (strtoupper($method)) {
+            case 'GET':
+                $payloads = [
+                    'query' => $payloads
+                ];
+                break;
+            case 'POST':
+                $payloads = [
+                    'form_params' => $payloads
+                ];
+                break;
+
+            default:
+                $payloads = [
+                    'json' => $payloads
+                ];
+                break;
+        }
+
         $this->body = [];
         try {
             $this->response = $this->client->request($method, $endpoint, $payloads);
@@ -61,6 +78,8 @@ class GuzzleClient extends BaseClient
             ;
         } catch (ClientException $e) {
             $this->status = false;
+            $this->body = json_decode($e->getResponse()->getBody(), true);
+        } catch (Throwable $e) {
             $this->logError($e);
         }
         return $this->body;

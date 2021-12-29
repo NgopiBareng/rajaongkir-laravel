@@ -58,7 +58,8 @@ class Courier
                 'description' => 'POS Indonesia (POS)',
                 'site_url' => 'https://www.posindonesia.co.id/',
                 'shipping_cost_url' => 'https://www.posindonesia.co.id/check-tarif',
-                'tracking_url' => 'https://www.posindonesia.co.id/tracking'
+                'tracking_url' => 'https://www.posindonesia.co.id/tracking',
+                'international' => true
             ],
             [
                 'code' => 'tiki',

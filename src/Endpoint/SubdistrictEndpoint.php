@@ -13,12 +13,13 @@ class SubdistrictEndpoint extends BaseEndpoint
     /**
      * Get all district
      *
-     * @return \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient
+     * @return self
      */
     public function get($city)
     {
         $this->city($city);
-        return $this->makeRequest();
+        $this->makeRequest();
+        return $this;
     }
 
     /**
@@ -26,7 +27,7 @@ class SubdistrictEndpoint extends BaseEndpoint
      *
      * @param string $city
      * @param string|null $id
-     * @return \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient
+     * @return self
      */
     public function find($city, $id = null)
     {
@@ -36,7 +37,8 @@ class SubdistrictEndpoint extends BaseEndpoint
             $this->whereID($id);
         }
 
-        return $this->makeRequest();
+        $this->makeRequest();
+        return $this;
     }
 
     /**

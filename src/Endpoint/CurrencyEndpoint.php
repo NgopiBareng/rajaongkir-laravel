@@ -10,8 +10,14 @@ class CurrencyEndpoint extends BaseEndpoint
     protected $endpoint = 'currency';
     protected $disableCache = true;
 
+    /**
+     * Get latest currency
+     *
+     * @return self
+     */
     public function get()
     {
-        return $this->httpClient->request($this->endpoint);
+        $this->makeRequest();
+        return $this;
     }
 }

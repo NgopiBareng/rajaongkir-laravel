@@ -4,6 +4,7 @@ namespace Ngopibareng\RajaongkirLaravel\Endpoint;
 
 use Ngopibareng\RajaongkirLaravel\Endpoint\BaseEndpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\PayloadHasCourier;
+use Ngopibareng\RajaongkirLaravel\Responses\WaybillResponse;
 
 class WaybillEndpoint extends BaseEndpoint
 {
@@ -13,9 +14,17 @@ class WaybillEndpoint extends BaseEndpoint
     protected $endpoint = 'waybill';
     protected $disableCache = true;
 
+    public function responseClass()
+    {
+        return WaybillResponse::class;
+    }
+
     /**
-     * @param string @waybill. Waybill / No Resi
-     * @param string @courier. Courier code
+     * Find waybill / tracking
+     *
+     * @param string $waybill. Waybill / No Resi
+     * @param string $courier. Courier code
+     * @return self
      */
     public function find($waybill, $courier)
     {
@@ -23,6 +32,7 @@ class WaybillEndpoint extends BaseEndpoint
             'waybill' => $waybill,
             'courier' => $courier
         ]);
-        return $this->makeRequest('POST');
+        $this->makeRequest('POST');
+        return $this;
     }
 }

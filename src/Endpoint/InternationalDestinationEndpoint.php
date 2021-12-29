@@ -14,24 +14,26 @@ class InternationalDestinationEndpoint extends BaseEndpoint
     /**
      * Get all international destination
      *
-     * @return \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient
+     * @return self
      */
     public function get()
     {
-        return $this->makeRequest();
+        $this->makeRequest();
+        return $this;
     }
 
     /**
      * Find international destination
      *
      * @param string|null $countryID
-     * @return \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient
+     * @return self
      */
     public function find($countryID)
     {
         $this->country($countryID);
 
-        return $this->makeRequest();
+        $this->makeRequest();
+        return $this;
     }
 
     /**

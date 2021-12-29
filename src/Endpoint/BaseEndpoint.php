@@ -3,6 +3,9 @@
 namespace Ngopibareng\RajaongkirLaravel\Endpoint;
 
 use Ngopibareng\RajaongkirLaravel\Endpoint\PayloadApp;
+use Ngopibareng\RajaongkirLaravel\RajaongkirResponse;
+
+use Illuminate\Support\Str;
 
 class BaseEndpoint
 {
@@ -80,6 +83,7 @@ class BaseEndpoint
     {
         $this->httpClient = $httpClient;
 
+        $this->baseUrl = $this->httpClient->baseUrl;
         $this->buildUrl();
 
         $this->httpClient->setCacheName($this->cacheName);
@@ -143,7 +147,27 @@ class BaseEndpoint
      */
     public function makeRequest($method = 'GET')
     {
-        return $this->httpClient->request($this->endpoint, $this->payloads, $method);
+        $endpoints = [];
+        if(!empty($this->apiVersion)){
+            $endpoints[] = $this->apiVersion;
+        }
+        $endpoints[] = $this->endpoint;
+
+        $endpoint = implode('/', $endpoints);
+        $appendSlash = !Str::endsWith($endpoint, '/');
+        $endpoint .= ($appendSlash ? '/' : '');
+        return $this->httpClient->request($endpoint, $this->payloads, $method);
+    }
+
+    public function responseClass()
+    {
+        return RajaongkirResponse::class;
+    }
+
+    public function response()
+    {
+        $class = $this->responseClass();
+        return (new $class($this->httpClient->toArray()));
     }
 
     public function count()

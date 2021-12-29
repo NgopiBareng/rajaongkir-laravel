@@ -5,126 +5,22 @@ namespace Ngopibareng\RajaongkirLaravel\Endpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\BaseEndpoint;
 use Ngopibareng\RajaongkirLaravel\Endpoint\PayloadHasDimension;
 use Ngopibareng\RajaongkirLaravel\Endpoint\PayloadHasCourier;
+use Ngopibareng\RajaongkirLaravel\Endpoint\PayloadHasLocation;
+use Ngopibareng\RajaongkirLaravel\Responses\CostResponse;
 
 class CostEndpoint extends BaseEndpoint
 {
     use PayloadHasDimension;
     use PayloadHasCourier;
+    use PayloadHasLocation;
 
     protected $cacheName = 'cost';
     protected $endpoint = 'cost';
     protected $disableCache = true;
 
-    /**
-     * @param string $origin
-     * @return self
-     */
-    public function origin($origin)
+    public function responseClass()
     {
-        $this->addPayload([
-            'origin' => $origin
-        ]);
-        return $this;
-    }
-
-    /**
-     * @param string $originType
-     * @return self
-     */
-    public function originType($originType)
-    {
-        $this->addPayload([
-            'originType' => $originType
-        ]);
-        return $this;
-    }
-
-    /**
-     * @param string $origin
-     * @param string $originType
-     * @return self
-     */
-    public function setOrigin($origin, $originType)
-    {
-        $this->origin($origin);
-        $this->originType($originType);
-        return $this;
-    }
-
-    /**
-     * @param string $origin
-     * @return self
-     */
-    public function setCityOrigin($origin)
-    {
-        $this->setOrigin($origin, 'city');
-        return $this;
-    }
-
-    /**
-     * @param string $origin
-     * @return self
-     */
-    public function setDistrictOrigin($origin)
-    {
-        $this->setOrigin($origin, 'subdistrict');
-        return $this;
-    }
-
-    /**
-     * @param string $destination
-     * @return self
-     */
-    public function destination($destination)
-    {
-        $this->addPayload([
-            'destination' => $destination
-        ]);
-        return $this;
-    }
-
-    /**
-     * @param string $destinationType
-     * @return self
-     */
-    public function destinationType($destinationType)
-    {
-        $this->addPayload([
-            'destinationType' => $destinationType
-        ]);
-        return $this;
-    }
-
-    /**
-     * @param string $destination
-     * @param string $destinationType
-     * @return self
-     */
-    public function setDestination($destination, $destinationType)
-    {
-        $this->destination($destination);
-        $this->destinationType($destinationType);
-        return $this;
-    }
-
-    /**
-     * @param string $destination
-     * @return self
-     */
-    public function setCityDestination($destination)
-    {
-        $this->setDestination($destination, 'city');
-        return $this;
-    }
-
-    /**
-     * @param string $destination
-     * @return self
-     */
-    public function setDistrictDestination($destination)
-    {
-        $this->setDestination($destination, 'subdistrict');
-        return $this;
+        return CostResponse::class;
     }
 
     /**
@@ -153,10 +49,12 @@ class CostEndpoint extends BaseEndpoint
 
     /**
      * @param array $payloads
+     * @return self
      */
     public function get($payloads = [])
     {
         $this->addPayload($payloads);
-        return $this->makeRequest('POST');
+        $this->makeRequest('POST');
+        return $this;
     }
 }

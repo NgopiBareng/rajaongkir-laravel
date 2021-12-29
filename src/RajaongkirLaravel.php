@@ -7,19 +7,15 @@ use Illuminate\Support\Arr;
 
 use Ngopibareng\RajaongkirLaravel\HttpClients\GuzzleClient as HTTPClient;
 use Ngopibareng\RajaongkirLaravel\Courier;
-use Ngopibareng\RajaongkirLaravel\Endpoint\ProvinceEndpoint;
-use Ngopibareng\RajaongkirLaravel\Endpoint\CityEndpoint;
-use Ngopibareng\RajaongkirLaravel\Endpoint\SubdistrictEndpoint;
-use Ngopibareng\RajaongkirLaravel\Endpoint\CurrencyEndpoint;
-use Ngopibareng\RajaongkirLaravel\Endpoint\InternationalCostEndpoint;
-use Ngopibareng\RajaongkirLaravel\Endpoint\InternationalDestinationEndpoint;
-use Ngopibareng\RajaongkirLaravel\Endpoint\InternationalOriginEndpoint;
-use Ngopibareng\RajaongkirLaravel\Endpoint\CostEndpoint;
-use Ngopibareng\RajaongkirLaravel\Endpoint\WaybillEndpoint;
 use Ngopibareng\RajaongkirLaravel\Widget;
+use Ngopibareng\RajaongkirLaravel\CacheManager;
+
+use Ngopibareng\RajaongkirLaravel\HasEndpoint;
 
 class RajaongkirLaravel
 {
+    use HasEndpoint;
+
     /** @var \Ngopibareng\RajaongkirLaravel\HttpClients\BaseClient */
     protected $httpClient;
 
@@ -95,96 +91,6 @@ class RajaongkirLaravel
     }
 
     /**
-     * Make request to get province
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\ProvinceEndpoint
-     */
-    public function province()
-    {
-        return ProvinceEndpoint::make($this->httpClient);
-    }
-
-    /**
-     * Make request to get city
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\CityEndpoint
-     */
-    public function city()
-    {
-        return CityEndpoint::make($this->httpClient);
-    }
-
-    /**
-     * Make request to get district
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\SubdistrictEndpoint
-     */
-    public function district()
-    {
-        return SubdistrictEndpoint::make($this->httpClient);
-    }
-
-    /**
-     * Make request to get latest conversion currency
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\CurrencyEndpoint
-     */
-    public function currency()
-    {
-        return CurrencyEndpoint::make($this->httpClient);
-    }
-
-    /**
-     * Make request to get international cost
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\InternationalCostEndpoint
-     */
-    public function internationalCost()
-    {
-        return InternationalCostEndpoint::make($this->httpClient);
-    }
-
-    /**
-     * Make request to get international destination
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\InternationalDestinationEndpoint
-     */
-    public function internationalDestination()
-    {
-        return InternationalDestinationEndpoint::make($this->httpClient);
-    }
-
-    /**
-     * Make request to get international origin
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\InternationalOriginEndpoint
-     */
-    public function internationalOrigin()
-    {
-        return InternationalOriginEndpoint::make($this->httpClient);
-    }
-
-    /**
-     * Make request to get shipping cost
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\CostEndpoint
-     */
-    public function cost()
-    {
-        return CostEndpoint::make($this->httpClient);
-    }
-
-    /**
-     * Make request to get waybill, tracking manifest (no resi)
-     *
-     * @return \Ngopibareng\RajaongkirLaravel\Endpoint\WaybillEndpoint
-     */
-    public function waybill()
-    {
-        return WaybillEndpoint::make($this->httpClient);
-    }
-
-    /**
      * @return string
      */
     public function accountType()
@@ -200,5 +106,15 @@ class RajaongkirLaravel
     public function widget()
     {
         return Widget::make();
+    }
+
+    public function fake()
+    {
+
+    }
+
+    public function cacheManager()
+    {
+        return CacheManager::make();
     }
 }
