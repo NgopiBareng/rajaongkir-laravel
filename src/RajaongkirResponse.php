@@ -89,7 +89,7 @@ class RajaongkirResponse
     /**
      * @return bool
      */
-    public function successful()
+    public function successfull()
     {
         return $this->getStatusCode() === 200;
     }
