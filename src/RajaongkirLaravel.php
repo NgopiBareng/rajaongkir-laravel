@@ -22,21 +22,13 @@ class RajaongkirLaravel
     /** @var string */
     protected $accountType;
 
-    /** @var array */
-    protected $baseUrl = [
-        'starter' => 'https://api.rajaongkir.com/starter/',
-        'basic' => 'https://api.rajaongkir.com/basic/',
-        'pro' => 'https://pro.rajaongkir.com/api/'
-    ];
-
     /**
      * @return void
      */
     public function __construct()
     {
         $this->accountType = config('rajaongkir.account_type');
-        $baseUrl = Arr::get($this->baseUrl, $this->accountType);
-        $httpClient = HTTPClient::make($baseUrl, config('rajaongkir.api_key'));
+        $httpClient = HTTPClient::make($this->getBaseUrl(), config('rajaongkir.api_key'));
 
         $httpClient->getCache()->cache(config('rajaongkir.cache.enabled'));
         $this->setHTTPClient($httpClient);
@@ -88,6 +80,54 @@ class RajaongkirLaravel
     public function courier()
     {
         return Courier::make($this->accountType);
+    }
+
+    /**
+     * List account types
+     *
+     * @return array
+     */
+    public function listAccountTypes()
+    {
+        return [
+            'starter' => [
+                'key' => 'starter',
+                'description' => 'starter',
+                'base_url' => 'https://api.rajaongkir.com/starter/',
+            ],
+            'basic' => [
+                'key' => 'basic',
+                'description' => 'basic',
+                'base_url' => 'https://api.rajaongkir.com/basic/',
+            ],
+            'pro' => [
+                'key' => 'pro',
+                'description' => 'pro',
+                'base_url' => 'https://pro.rajaongkir.com/api/',
+            ]
+        ];
+    }
+
+    /**
+     * Get config by account type
+     *
+     * @param string|null $key
+     * @return string|array|null
+     */
+    public function getConfig($key = null)
+    {
+        $config = Arr::get($this->listAccountTypes(), $this->accountType(), []);
+        return Arr::get($config, $key);
+    }
+
+    /**
+     * Get base url by account type
+     *
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->getConfig('base_url');
     }
 
     /**
