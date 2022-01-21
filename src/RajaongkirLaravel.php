@@ -22,16 +22,18 @@ class RajaongkirLaravel
     /** @var string */
     protected $accountType;
 
+    /** @var string */
+    protected $apiKey;
+
     /**
      * @return void
      */
     public function __construct()
     {
-        $this->accountType = config('rajaongkir.account_type');
-        $httpClient = HTTPClient::make($this->getBaseUrl(), config('rajaongkir.api_key'));
+        $this->setAccountType(config('rajaongkir.account_type'));
+        $this->setApiKey(config('rajaongkir.api_key'));
 
-        $httpClient->getCache()->cache(config('rajaongkir.cache.enabled'));
-        $this->setHTTPClient($httpClient);
+        $this->initHttpClient();
     }
 
     /**
@@ -40,6 +42,57 @@ class RajaongkirLaravel
     public static function make()
     {
         return (new self());
+    }
+
+    /**
+     * Set account type
+     *
+     * @param string $accountType
+     * @return self
+     */
+    public function setAccountType($accountType)
+    {
+        $this->accountType = $accountType;
+        $this->initHttpClient();
+        return $this;
+    }
+
+    /**
+     * Set api key
+     *
+     * @param string $apiKey
+     * @return self
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+        $this->initHttpClient();
+        return $this;
+    }
+
+    /**
+     * Set config
+     *
+     * @param array $config
+     * @return self
+     */
+    public function setConfig(array $config)
+    {
+        $this->setAccountType(Arr::get($config, 'account_type', $this->getDefaultAccount('key')));
+        $this->setApiKey(Arr::get($config, 'api_key'));
+        return $this;
+    }
+
+    /**
+     * @return self
+     */
+    private function initHttpClient()
+    {
+        $httpClient = HTTPClient::make($this->getBaseUrl(), $this->apiKey);
+
+        $httpClient->getCache()->cache(config('rajaongkir.cache.enabled'));
+        $this->setHTTPClient($httpClient);
+        return $this;
     }
 
     /**
@@ -94,6 +147,7 @@ class RajaongkirLaravel
                 'key' => 'starter',
                 'description' => 'starter',
                 'base_url' => 'https://api.rajaongkir.com/starter/',
+                'default' => true,
             ],
             'basic' => [
                 'key' => 'basic',
@@ -106,6 +160,20 @@ class RajaongkirLaravel
                 'base_url' => 'https://pro.rajaongkir.com/api/',
             ]
         ];
+    }
+
+    /**
+     * Get default account type
+     *
+     * @param string|null $key
+     * @return string|array|null
+     */
+    public function getDefaultAccount($key = null)
+    {
+        $result = Arr::first($this->listAccountTypes(), function ($value, $key) {
+            return Arr::get($value , 'default', false) === true;
+        });
+        return Arr::get($result, $key);
     }
 
     /**
