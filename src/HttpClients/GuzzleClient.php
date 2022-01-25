@@ -73,13 +73,12 @@ class GuzzleClient extends BaseClient
         try {
             $this->response = $this->client->request($method, $endpoint, $payloads);
 
-            $this->status = $this->response->getStatusCode();
-            $this->body = json_decode($this->response->getBody(), true);
+            $this->setResponse(json_decode($this->response->getBody(), true), true);
             ;
         } catch (ClientException $e) {
-            $this->status = false;
-            $this->body = json_decode($e->getResponse()->getBody(), true);
+            $this->responseError($e->getMessage(), 400, json_decode($e->getResponse()->getBody(), true));
         } catch (Throwable $e) {
+            $this->responseError($e->getMessage());
             $this->logError($e);
         }
         return $this->body;
