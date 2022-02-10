@@ -194,4 +194,60 @@ abstract class BaseClient implements HttpClientContract
     {
 
     }
+
+    /**
+     * Set response
+     *
+     * @param bool $status. status response
+     * @param array $body. custom body response
+     * @return self
+     */
+    protected function setResponse(array $body = [], $status = true)
+    {
+        $this->status = $status;
+        $this->body = array_merge($this->defaultResponse(), $body);
+        return $this;
+    }
+
+    /**
+     * Handle response error
+     *
+     * @param string $description. error description
+     * @param int|string $code. error status code
+     * @param array $others
+     * @return self
+     */
+    protected function responseError($description = 'Error', $code = 400, array $others = [])
+    {
+        $data = array_merge([], [
+            'rajaongkir' => [
+                'status' => [
+                    'code' => $code,
+                    'description' => $description
+                ],
+            ]
+        ], $others);
+        $this->setResponse($data, false);
+        return $this;
+    }
+
+    /**
+     * Default response
+     *
+     * @return array
+     */
+    protected function defaultResponse()
+    {
+        return [
+            'rajaongkir' => [
+                "query" => [
+                ],
+                'status' => [
+                    'code' => 400,
+                    'description' => 'Error'
+                ],
+                'result' => []
+            ]
+        ];
+    }
 }
